@@ -11,9 +11,14 @@ export default new Router({
       component: require('@/pages/Home').default
     },
     {
+      path: '/settings-old',
+      name: 'settings-old',
+      component: require('@/pages/Settings').default
+    },
+    {
       path: '/settings',
       name: 'settings',
-      component: require('@/pages/Settings').default
+      component: require('@/pages/SettingsModern').default
     },
     {
       path: '*',

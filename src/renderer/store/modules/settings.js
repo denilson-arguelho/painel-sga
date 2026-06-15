@@ -5,6 +5,26 @@ const state = {
   services: [],
   availableThemes: [
     {
+      id: 'novosga.modern',
+      name: 'Modern',
+      options: [
+        {
+          name: 'logo',
+          label: 'Logo',
+          type: 'url',
+          required: false,
+          placeholder: 'https://'
+        },
+        {
+          name: 'footerText',
+          label: 'Footer text',
+          type: 'text',
+          required: false,
+          placeholder: ''
+        }
+      ]
+    },
+    {
       id: 'novosga.default',
       name: 'Default',
       options: [

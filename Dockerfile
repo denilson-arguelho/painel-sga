@@ -6,10 +6,13 @@ WORKDIR /app
 # Copia os arquivos de pacotes
 COPY package*.json ./
 
-# Instala TODAS as dependências (necessárias para rodar o build:web)
-RUN npm install
+# Instala ferramentas essenciais de compilação (evita erros de pacotes nativos/node-gyp)
+RUN apk add --no-cache python3 make g++
 
-# Copia o código fonte (Corrigido: agora com o ponto final)
+# Instala as dependências do projeto
+RUN npm install --verbose
+
+# Copia o código fonte
 COPY . .
 
 # Cria a versão web
@@ -30,7 +33,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expõe a porta interna
 EXPOSE 80
 
-# Health check (Corrigido o caractere de quebra de linha)
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost/ || exit 1
 

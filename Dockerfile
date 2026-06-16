@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala TODAS as dependências (necessárias para rodar o build:web)
-RUN npm ci
+RUN npm install
 
 # Copia o código fonte (Corrigido: agora com o ponto final)
 COPY . .

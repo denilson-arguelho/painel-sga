@@ -3,9 +3,12 @@ version: '3.8'
 services:
   painel-web:
     image: painel-web:latest
+    build:
+      context: .              # Aponta para a pasta onde está o seu Dockerfile
+      dockerfile: Dockerfile
     container_name: painel-sga-web
     ports:
-      - "80:80"
+      - "8081:8081"
     environment:
       - NODE_ENV=production
     restart: unless-stopped

@@ -1,39 +1,38 @@
-# Build stage
+# Estágio de Build
 FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files
+# Copia os arquivos de pacotes
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && \
-    npm ci
+# Instala TODAS as dependências (necessárias para rodar o build:web)
+RUN npm ci
 
-# Copy source code
+# Copia o código fonte (Corrigido: agora com o ponto final)
 COPY . .
 
-# Build web version
+# Cria a versão web
 RUN npm run build:web
 
-# Production stage
+# Estágio de Produção
 FROM nginx:alpine
 
-# Install curl for healthcheck
+# Instala o curl para o healthcheck
 RUN apk add --no-cache curl
 
-# Copy built files
+# Copia os arquivos buildados
 COPY --from=build --chown=nginx:nginx /app/dist/web /usr/share/nginx/html
 
-# Copy nginx configuration
+# Copia a configuração do nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port
+# Expõe a porta interna
 EXPOSE 80
 
-# Health check
+# Health check (Corrigido o caractere de quebra de linha)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost/ || exit 1
 
-# Start nginx
+# Inicia o nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   painel-web:
-    image: painel-web:latest
     build:
-      context: .              # Aponta para a pasta onde está o seu Dockerfile
+      context: .
       dockerfile: Dockerfile
+    image: painel-sga-web:latest
     container_name: painel-sga-web
     ports:
-      - "8003:80"
+      - "80:80"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
       - "com.example.description=Painel Web SGA"
       - "com.example.version=2.1.0"
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3
